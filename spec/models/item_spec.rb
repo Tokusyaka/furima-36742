@@ -13,6 +13,11 @@ RSpec.describe Item, type: :model do
     end
 
     context '商品を出品できない時' do
+      it 'ユーザー情報がない場合' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
+      end
       it '商品画像が添付されていない場合' do
         @item.image = nil
         @item.valid?
@@ -63,8 +68,13 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is invalid. Input half-width characters')
       end
-      it '価格が¥300~¥9,999,999の間でない場合' do
-        @item.price = '100'
+      it '価格が¥299以下の場合' do
+        @item.price = 100
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price is out of setting range')
+      end
+      it '価格が¥10,000,000以上の場合' do
+        @item.price = 10000000
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is out of setting range')
       end

@@ -21,7 +21,7 @@ class Item < ApplicationRecord
                     numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999,
                                     message: 'is out of setting range' }
   validates :product, presence: true
-  validates :user, presence: true
+  validate :user
   validates :image, presence: true
 
   with_options numericality: { other_than: 1, message: "can't be blank" } do
