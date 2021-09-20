@@ -42,12 +42,12 @@ RSpec.describe User, type: :model do
       it '数字のみのパスワードの場合' do
         @user.password = '000000'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid. Include both half-width characters and numbers")
+        expect(@user.errors.full_messages).to include('Password is invalid. Include both half-width characters and numbers')
       end
       it '全角文字を含むパスワードの場合' do
         @user.password = '０００ＡＡＡ'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid. Include both half-width characters and numbers")
+        expect(@user.errors.full_messages).to include('Password is invalid. Include both half-width characters and numbers')
       end
       it 'passwordが、5文字以下の場合' do
         @user.password = '00000'
