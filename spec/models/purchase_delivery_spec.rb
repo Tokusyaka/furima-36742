@@ -5,7 +5,7 @@ RSpec.describe PurchaseDelivery, type: :model do
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
     @purchase_delivery = FactoryBot.build(:purchase_delivery, user_id: @user.id, item_id: @item.id)
-    sleep(2)
+    sleep(1)
   end
 
   describe '商品購入' do
@@ -81,6 +81,18 @@ RSpec.describe PurchaseDelivery, type: :model do
         @purchase_delivery.token = nil
         @purchase_delivery.valid?
         expect(@purchase_delivery.errors.full_messages).to include("Token can't be blank")
+      end
+
+      it 'user_idが空だと購入できない' do
+        @purchase_delivery.user_id = nil
+        @purchase_delivery.valid?
+        expect(@purchase_delivery.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'item_idが空だと購入できない' do
+        @purchase_delivery.item_id = nil
+        @purchase_delivery.valid?
+        expect(@purchase_delivery.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
